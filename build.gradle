@@ -29,3 +29,27 @@ dependencies {
 application {
     mainClassName = 'com.adjectivecolournoun.gradle.Greetz'
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java // Publish the default Java component (JAR)
+            
+            groupId = "com.example"  // Your group ID
+            artifactId = "my-application"  // Artifact ID for your project
+            version = "0.1"  // Version of your project
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Ankit-9575/gradle-example")
+
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER")
+                password = project.findProperty("gpr.token") ?: System.getenv("GPR_TOKEN")
+            }
+        }
+    }
+}
